@@ -7,7 +7,7 @@ data class Subject(
     val credits: Int,
     val currentGrade: String,
     val description: String
-) {
+)
     val sampleSubjects = listOf(
         Subject(
             id = "1",
@@ -42,4 +42,3 @@ data class Subject(
             description = "наука и практика эффективного управления ресурсами (людьми, финансами, временем, информацией) для достижения целей организации"
         )
     )
-}
