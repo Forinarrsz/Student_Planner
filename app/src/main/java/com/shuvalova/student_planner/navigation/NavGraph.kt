@@ -48,9 +48,21 @@ fun StudentPlannerNavHost(
             )
         }
         //profile screen
-        composable(route = Screen.Profile.route) {}
+        composable(route = Screen.Profile.route) {
+            ProfileScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
         //settings screen
-        composable(route = Screen.Settings.route) {}
+        composable(route = Screen.Settings.route) {
+            SettingsScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
 
     }
 }
