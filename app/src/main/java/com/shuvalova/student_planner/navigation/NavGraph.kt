@@ -2,13 +2,13 @@ package com.shuvalova.student_planner.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.shuvalova.student_planner.ui_model.*
+import com.shuvalova.student_planner.navigation.Screen
 
 @Composable
 fun StudentPlannerNavHost(
@@ -22,48 +22,66 @@ fun StudentPlannerNavHost(
     ) {
         composable(route = Screen.Home.route) {
             HomeScreen(
-                onSubjectClick = { subjectId -> navController.navigate(Screen.Details.createRoute(subjectId))},
+                onSubjectClick = { subjectId ->
+                    navController.navigate(Screen.Details.createRoute(subjectId))
+                },
                 onProfileClick = {
                     navController.navigate(Screen.Profile.route)
                 },
                 onSettingsClick = {
                     navController.navigate(Screen.Settings.route)
+                },
+                onScheduleClick = {
+                    navController.navigate(Screen.Schedule.route)
                 }
-
             )
         }
-        //discipline detalis
+
         composable(
             route = Screen.Details.route,
             arguments = listOf(
-                navArgument("subjectId") {type = NavType.StringType}
+                navArgument("subjectId") { type = NavType.StringType }
             )
-        ){
-            backStackEntry ->
-            val subjectId = backStackEntry.arguments?.getString("subjectId") ?:""
+        ) { backStackEntry ->
+            val subjectId = backStackEntry.arguments?.getString("subjectId") ?: ""
             DetailsScreen(
                 subjectId = subjectId,
-                onNavigateBack = {
-                    navController.popBackStack()
-                }
+                onNavigateBack = { navController.popBackStack() }
             )
         }
-        //profile screen
+
         composable(route = Screen.Profile.route) {
             ProfileScreen(
-                onNavigateBack = {
-                    navController.popBackStack()
-                }
+                onNavigateBack = { navController.popBackStack() }
             )
         }
-        //settings screen
+
         composable(route = Screen.Settings.route) {
             SettingsScreen(
-                onNavigateBack = {
-                    navController.popBackStack()
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+        composable(route = Screen.Schedule.route) {
+            ScheduleScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onLessonClick = { lessonId ->
+                    navController.navigate(Screen.ScheduleDetail.createRoute(lessonId))
                 }
             )
         }
 
+
+        composable(
+            route = Screen.ScheduleDetail.route,
+            arguments = listOf(
+                navArgument("lessonId") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val lessonId = backStackEntry.arguments?.getString("lessonId") ?: ""
+            ScheduleDetailScreen(
+                lessonId = lessonId,
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
     }
 }

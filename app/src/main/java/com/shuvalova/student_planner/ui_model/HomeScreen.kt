@@ -1,6 +1,5 @@
 package com.shuvalova.student_planner.ui_model
 
-import androidx.annotation.experimental.Experimental
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -30,9 +29,7 @@ fun SubjectCard(
             .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = subject.name,
                 style = MaterialTheme.typography.titleMedium,
@@ -77,37 +74,40 @@ fun SubjectCard(
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onSubjectClick: (String) -> Unit,
     onProfileClick: () -> Unit,
     onSettingsClick: () -> Unit,
+    onScheduleClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
         topBar = {
-        TopAppBar(
-            title = {Text("My subjects")},
-            actions = {
-                IconButton(onClick = onProfileClick) {
-                    Icon(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = "Profile"
-                    )
+            TopAppBar(
+                title = { Text("My subjects") },
+                actions = {
+                    IconButton(onClick = onProfileClick) {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = "Profile"
+                        )
+                    }
+                    IconButton(onClick = onSettingsClick) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "Settings"
+                        )
+                    }
+                    TextButton(onClick = onScheduleClick) {
+                        Text("Расписание")
+                    }
                 }
-                IconButton(onClick = onSettingsClick) {
-                    Icon(
-                        imageVector = Icons.Default.Settings,
-                        contentDescription = "Settings"
-                    )
-                }
-
-            }
-        )
-}
-    ) {
-        paddingValues ->
+            )
+        }
+    ) { paddingValues ->
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
@@ -115,11 +115,10 @@ fun HomeScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(sampleSubjects) {
-                subject ->
+            items(sampleSubjects) { subject ->
                 SubjectCard(
                     subject = subject,
-                    onClick = {onSubjectClick(subject.id)}
+                    onClick = { onSubjectClick(subject.id) }
                 )
             }
         }
