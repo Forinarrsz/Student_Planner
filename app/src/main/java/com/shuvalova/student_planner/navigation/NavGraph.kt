@@ -29,6 +29,7 @@ fun StudentPlannerNavHost(
                 onSettingsClick = {
                     navController.navigate(Screen.Settings.route)
                 }
+
             )
         }
         //discipline detalis
